@@ -1,16 +1,16 @@
 [
-{
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
-}
+  {
+    "modid": "happylandings",
+    "name": "Happy Landings",
+    "description": "Soft landings from falls and flying into walls.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["Hubry"],
+    "credits": "shade28 for the idea, Teeto_Kaziim for the name.",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
 ]
