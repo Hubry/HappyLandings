@@ -26,49 +26,41 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import static hubry.landings.HappyLandings.*; 
+import static hubry.landings.HappyLandings.*;
 
 @Mod.EventBusSubscriber(modid = MODID)
 @Mod(modid = MODID, name = NAME, version = VERSION, acceptedMinecraftVersions = "[1.12,1.13)")
 public class HappyLandings {
+
     public static final String MODID = "happylandings";
     public static final String NAME = "Happy Landings";
     public static final String VERSION = "1.0";
-    
+
     @SubscribeEvent
-    public static void cancelDamage(LivingHurtEvent event) {
-        if(!(event.getEntity() instanceof EntityPlayer)) {
-            return;
-        }
-        if(Configs.isElytraDamageCancelled && event.getSource() == DamageSource.FLY_INTO_WALL) {
-            event.setCanceled(true);
-            return;
-        }
-        if(Configs.isFallDamageCancelled && event.getSource() == DamageSource.FALL) {
+    public static void cancelElytraWallDamage(LivingAttackEvent event) {
+        if (event.getEntity() instanceof EntityPlayer && Configs.isElytraDamageCancelled && event.getSource() == DamageSource.FLY_INTO_WALL) {
             event.setCanceled(true);
         }
     }
+
+    @SubscribeEvent
+    public static void cancelFallDamage(LivingFallEvent event) {
+        if (event.getEntity() instanceof EntityPlayer && Configs.isFallDamageCancelled) {
+            event.setCanceled(true);
+        }
+    }
+
     @SubscribeEvent
     public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if(event.getModID().equals(MODID)) {
+        if (event.getModID().equals(MODID)) {
             ConfigManager.sync(MODID, Config.Type.INSTANCE);
         }
     }
-    
-    @Config(modid = MODID)
-    public static class Configs {
-        
-        @Config.Name("Is Elytra damage cancelled")
-        @Config.Comment("If enabled, flying into walls at high speed does not deal damage.")
-        public static boolean isElytraDamageCancelled = true;
-        
-        @Config.Name("Is overall fall damage cancelled")
-        @Config.Comment("If enabled, fall damage is not dealt to players.")
-        public static boolean isFallDamageCancelled = false;
-    }
+
 }
