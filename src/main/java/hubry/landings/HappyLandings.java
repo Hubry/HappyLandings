@@ -30,18 +30,19 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import static hubry.landings.HappyLandings.*;
 
 @Mod.EventBusSubscriber(modid = MODID)
-@Mod(modid = MODID, name = NAME, version = VERSION, acceptedMinecraftVersions = "[1.12,1.13)")
+@Mod(modid = MODID, name = NAME, version = VERSION, acceptedMinecraftVersions = "[1.10,1.13)")
 public class HappyLandings {
 
     public static final String MODID = "happylandings";
     public static final String NAME = "Happy Landings";
-    public static final String VERSION = "1.1";
-    
+    public static final String VERSION = "1.1.1";
+
     @SubscribeEvent
     public static void cancelElytraWallDamage(LivingAttackEvent event) {
         if (event.getEntity() instanceof EntityPlayer && Configs.isElytraDamageCancelled && event.getSource() == DamageSource.FLY_INTO_WALL) {
@@ -49,10 +50,10 @@ public class HappyLandings {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void cancelFallDamage(LivingFallEvent event) {
         if (event.getEntity() instanceof EntityPlayer && Configs.isFallDamageCancelled) {
-            event.setCanceled(true);
+            event.setDamageMultiplier(0);
         }
     }
 
